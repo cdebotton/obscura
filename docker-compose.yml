@@ -1,17 +1,24 @@
 version: '3.1'
 
 services:
-  web:
-    build: ./web
+  api:
+    build: ./api
     volumes:
-      - ./web:/usr/src/app
+      - ./api:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - db
+  admin:
+    build: ./admin
+    volumes:
+      - ./admin:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api
   nginx:
     build: ./nginx
     depends_on:
-      - web
+      - admin
     volumes:
       - ./logs/nginx:/var/log/nginx/
     ports:

@@ -1,19 +1,19 @@
-upstream public {
-  server web:3000;
+upstream admin {
+  server admin:3000;
   keepalive 64;
 }
 
 server {
   listen          80;
   listen          [::]:80;
-  server_name    obscura.dev;
+  server_name    admin.obscura.dev;
   return         301 https://$server_name$request_uri;
 }
 
 server {
-  listen                    443 ssl http2 default_server;
-  listen                    [::]:443 ssl http2 default_server;
-  server_name               obscura.dev;
+  listen                    443 ssl http2;
+  listen                    [::]:443 ssl http2;
+  server_name               admin.obscura.dev;
 
   ssl                         on;
   ssl_ciphers                 HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
@@ -24,7 +24,7 @@ server {
   ssl_prefer_server_ciphers   on;
 
   location / {
-    proxy_pass              http://public$request_uri;
+    proxy_pass              http://admin$request_uri;
     include                 /etc/nginx/shared/node-http2.conf;
   }
 
