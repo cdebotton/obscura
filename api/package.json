@@ -4,12 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prewatch":
-      "tsc --sourceMap --pretty; babel .tmp/es2015-dist --out-dir ./dist",
-    "watch": "npm-run-all --parallel 'watch:typescript' 'watch:babel'",
-    "watch:typescript": "tsc --watch --pretty --sourceMap",
-    "watch:babel": "babel .tmp/es2015-dist --out-dir ./dist --watch",
+    "watch": "tsc --watch --pretty; babel .tmp/ts --out-dir dist --watch",
+    "prestart:dev": "tsc --pretty; babel .tmp/ts --out-dir dist",
     "start:dev": "npm-run-all --parallel 'watch' 'pm2:dev'",
+    "stop": "pm2 kill",
     "pm2:dev": "pm2-docker start ecosystem.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,16 +15,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/graphql": "^0.11.5",
     "@types/koa": "^2.0.39",
+    "@types/koa-bodyparser": "^3.0.25",
+    "@types/koa-compress": "^2.0.7",
+    "@types/koa-router": "^7.0.23",
+    "@types/zen-observable": "^0.5.3",
+    "apollo-server-koa": "^1.1.7",
     "graphql": "^0.11.7",
-    "graphql-fragments": "^0.1.0",
-    "graphql-server-koa": "^1.1.7",
-    "graphql-subscriptions": "^0.5.4",
-    "graphql-tag": "^2.5.0",
     "graphql-tools": "^2.5.1",
     "koa": "^2.3.0",
-    "pm2": "^2.7.2",
-    "subscriptions-transport-ws": "^0.9.1"
+    "koa-bodyparser": "^4.2.0",
+    "koa-compress": "^2.0.0",
+    "koa-router": "^7.2.1",
+    "pm2": "^2.7.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

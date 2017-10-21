@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'web',
+      name: 'api',
       script: 'dist/http/index.js',
       watch: ['dist', 'node_modules'],
       nodeArgs: ['--expose-http2'],

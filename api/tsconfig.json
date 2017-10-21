@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "target": "es2015",
-    "outDir": ".tmp/es2015-dist",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "lib": ["esnext", "es6", "dom"],
+    "outDir": "./.tmp/ts",
     "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },

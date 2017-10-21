@@ -1,5 +1,5 @@
 upstream public {
-  server web:3000;
+  server public:3000;
   keepalive 64;
 }
 
