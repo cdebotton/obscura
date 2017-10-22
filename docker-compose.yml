@@ -27,11 +27,12 @@ services:
   db:
     image: postgres:10-alpine
     volumes:
-      - postgres:/var/lib/postgres/data
+      - postgres:/var/lib/postgresql/data/pgdata
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: obscura-dev
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - 5432:5432
   adminer:
