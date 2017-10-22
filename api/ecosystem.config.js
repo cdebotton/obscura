@@ -3,8 +3,8 @@ module.exports = {
     {
       name: 'api',
       script: 'dist/http/index.js',
-      watch: ['dist', 'node_modules'],
-      nodeArgs: ['--expose-http2'],
+      watch: ['dist'],
+      nodeArgs: ['--expose-http2', '-r', 'reflect-metadata'],
       env: {
         PORT: 3000,
         NODE_ENV: 'development',

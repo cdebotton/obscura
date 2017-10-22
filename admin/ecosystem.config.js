@@ -1,9 +1,9 @@
 module.exports = {
   apps: [
     {
-      name: 'web',
+      name: 'admin',
       script: 'dist/http/index.js',
-      watch: ['dist', 'node_modules'],
+      watch: ['dist'],
       nodeArgs: ['--expose-http2'],
       env: {
         PORT: 3000,
