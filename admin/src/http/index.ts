@@ -1,4 +1,5 @@
 import Koa from 'koa';
+import render from './render';
 
 const { PORT } = process.env;
 if (!PORT) {
@@ -7,9 +8,9 @@ if (!PORT) {
 
 const app = new Koa();
 
-app.use(ctx => {
-  ctx.body = 'Hello, world!';
-});
+app.proxy = true;
+
+app.use(render());
 
 const server = app.listen(PORT, () => {
   const { address, port } = server.address();

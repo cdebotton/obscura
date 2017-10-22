@@ -10,7 +10,14 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@entity/*": ["./entity/*"],
+      "@http/*": ["./http/*"],
+      "@schema/*": ["./schema/*"],
+      "@schema": ["./schema"]
+    }
   },
   "include": ["./src"]
 }

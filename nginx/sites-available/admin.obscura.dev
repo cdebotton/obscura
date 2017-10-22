@@ -3,6 +3,11 @@ upstream admin {
   keepalive 64;
 }
 
+upstream admin-webpack {
+  server admin:3001;
+  keepalive 64;
+}
+
 server {
   listen          80;
   listen          [::]:80;
@@ -22,6 +27,16 @@ server {
   ssl_certificate             /etc/nginx/ssl/obscura.dev.crt;
   ssl_certificate_key         /etc/nginx/ssl/obscura.dev.key;
   ssl_prefer_server_ciphers   on;
+
+  location /dist {
+    proxy_pass              http://admin-webpack;
+    include                 /etc/nginx/shared/node-http2.conf;
+  }
+
+  location /__webpack_hmr {
+    proxy_pass              http://admin-webpack;
+    include                 /etc/nginx/shared/node-http2.conf;
+  }
 
   location / {
     proxy_pass              http://admin$request_uri;

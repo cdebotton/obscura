@@ -11,5 +11,18 @@
       }
     ]
   ],
-  "plugins": ["transform-runtime"]
+  "plugins": [
+    "transform-runtime",
+    [
+      "module-resolver",
+      {
+        "root": ["./tmp/ts"],
+        "alias": {
+          "@entity": "./entity",
+          "@http": "./http",
+          "@schema": "./schema"
+        }
+      }
+    ]
+  ]
 }
