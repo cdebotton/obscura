@@ -7,9 +7,10 @@
       {
         "targets": {
           "node": "current"
-        }
+        },
+        "loose": true
       }
     ]
   ],
-  "plugins": ["transform-runtime"]
+  "plugins": ["transform-runtime", "styled-components"]
 }

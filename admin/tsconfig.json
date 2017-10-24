@@ -11,8 +11,7 @@
     "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "preserve",
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "jsx": "preserve"
   },
   "include": ["./src"]
 }

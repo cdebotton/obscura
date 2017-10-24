@@ -35,6 +35,8 @@ const config = {
                     targets: {
                       browsers: ['last 2 versions'],
                     },
+                    modules: false,
+                    loose: true,
                   },
                 ],
               ],
@@ -79,6 +81,8 @@ app.use(
     },
   }),
 );
+
+app.use(webpackHotMiddleware(compiler));
 
 const server = app.listen(WEBPACK_PORT, () => {
   const { address, port } = server.address();

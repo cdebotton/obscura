@@ -6,9 +6,9 @@
   "scripts": {
     "build:tsc": "tsc",
     "build:babel": "babel .tmp/ts --out-dir dist",
-    "predev": "npm-run-all 'build:tsc' 'build:babel'",
     "watch:tsc": "npm run build:tsc -- --watch --pretty",
     "watch:babel": "npm run build:babel -- --watch",
+    "predev": "npm-run-all 'build:tsc' 'build:babel'",
     "pm2:dev": "NODE_ENV=development pm2-docker start ecosystem.config.js",
     "dev": "npm-run-all --parallel 'watch:tsc' 'watch:babel' 'pm2:dev'",
     "stop": "pm2 kill",
@@ -27,6 +27,7 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-module-resolver": "^2.7.1",
+    "babel-plugin-styled-components": "^1.2.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -42,7 +43,12 @@
   },
   "dependencies": {
     "@types/graphql": "^0.11.5",
+    "@types/history": "^4.6.1",
     "@types/koa": "^2.0.39",
+    "@types/koa-bodyparser": "^3.0.25",
+    "@types/koa-compress": "^2.0.7",
+    "@types/koa-router": "^7.0.23",
+    "@types/merge2": "^1.1.2",
     "@types/node": "^8.0.46",
     "@types/react": "^16.0.17",
     "@types/react-dom": "^16.0.2",
@@ -51,8 +57,12 @@
     "@types/react-router-dom": "^4.0.8",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
+    "history": "^4.7.2",
     "koa": "^2.3.0",
-    "ordered-read-streams": "^1.0.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-compress": "^2.0.0",
+    "koa-router": "^7.2.1",
+    "merge2": "^1.2.0",
     "pm2": "^2.7.2",
     "polished": "^1.8.1",
     "react": "^16.0.0",
@@ -64,5 +74,8 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "styled-components": "^2.2.1"
+  },
+  "resolutions": {
+    "@types/react": "16.0.16"
   }
 }

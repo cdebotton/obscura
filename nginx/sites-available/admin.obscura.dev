@@ -29,12 +29,12 @@ server {
   ssl_prefer_server_ciphers   on;
 
   location /dist {
-    proxy_pass              http://admin-webpack;
+    proxy_pass              http://admin-webpack$request_uri;
     include                 /etc/nginx/shared/node-http2.conf;
   }
 
   location /__webpack_hmr {
-    proxy_pass              http://admin-webpack;
+    proxy_pass              http://admin-webpack$request_uri;
     include                 /etc/nginx/shared/node-http2.conf;
   }
 
