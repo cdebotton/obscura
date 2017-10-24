@@ -8,5 +8,12 @@
     "**/.tmp/**": true,
     "**/dist/**": true
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "stylelint.enable": true,
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.additionalDocumentSelectors": ["ts", "tsx"],
+  "stylelint.config": {
+    "extends": "./admin/.stylelintrc"
+  }
 }
