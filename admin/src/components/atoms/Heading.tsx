@@ -15,4 +15,6 @@ const Heading = ({ level = 1, ...props }: Props) => {
   return React.createElement(element, props);
 };
 
-export default styled(Heading)``;
+export default styled(Heading)`
+  position: relative;
+`;

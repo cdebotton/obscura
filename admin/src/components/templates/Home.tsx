@@ -1,6 +1,6 @@
-import Heading from '@components/atoms/Heading';
-import Page from '@components/atoms/Page';
 import React from 'react';
+import Heading from '../atoms/Heading';
+import Page from '../atoms/Page';
 
 const Home = () => (
   <Page>

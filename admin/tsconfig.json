@@ -11,16 +11,7 @@
     "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "preserve",
-    "baseUrl": "./src",
-    "paths": {
-      "@client/*": ["client/*"],
-      "@components/*": ["components/*"],
-      "@containers/*": ["containers/*"],
-      "@http/*": ["http/*"],
-      "@routes/*": ["routes/*"],
-      "@theme/*": ["theme/*"]
-    }
+    "jsx": "preserve"
   },
   "include": ["./src"]
 }

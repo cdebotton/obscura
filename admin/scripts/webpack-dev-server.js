@@ -25,37 +25,6 @@ const config = {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              babelrc: false,
-              presets: [
-                'stage-0',
-                'react',
-                [
-                  'env',
-                  {
-                    targets: {
-                      browsers: ['last 2 versions'],
-                    },
-                    modules: false,
-                    loose: true,
-                  },
-                ],
-              ],
-              plugins: [
-                'transform-runtime',
-                'react-hot-loader/babel',
-                [
-                  'module-resolver',
-                  {
-                    alias: {
-                      '@client': './src/client',
-                      '@components': './src/components',
-                      '@containers': './src/containers',
-                      '@http': './src/http',
-                      '@routes': './src/routes',
-                    },
-                  },
-                ],
-              ],
             },
           },
           'ts-loader',
