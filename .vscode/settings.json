@@ -9,11 +9,11 @@
     "**/dist/**": true
   },
   "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
   "stylelint.enable": true,
-  "css.validate": false,
-  "scss.validate": false,
-  "stylelint.additionalDocumentSelectors": ["ts", "tsx"],
-  "stylelint.config": {
-    "extends": "./admin/.stylelintrc"
-  }
+  "stylelint.additionalDocumentSelectors": ["typescriptreact"],
+  "prettier.stylelintIntegration": true,
+  "prettier.eslintIntegration": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all"
 }
