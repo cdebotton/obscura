@@ -14,7 +14,6 @@
   ],
   "plugins": [
     "transform-runtime",
-    "styled-components",
     [
       "module-resolver",
       {

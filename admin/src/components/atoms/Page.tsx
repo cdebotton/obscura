@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 const Page = styled.div`
-  position: absolute;
   display: flex;
-  width: 20px;
-  transform: translateX(50px);
+  width: 100vw;
+  min-height: 100vh;
+  flex-flow: row wrap;
+  justify-content: flex-start;
 `;
 
 export default Page;
