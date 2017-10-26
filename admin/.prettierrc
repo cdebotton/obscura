@@ -5,5 +5,19 @@
   "useTabs": false,
   "singleQuote": true,
   "trailingComma": "all",
-  "semi": true
+  "semi": true,
+  "overrides": [
+    {
+      "files": ".babelrc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": "tslint.json",
+      "options": { "parser": "json" }
+    }
+  ]
 }

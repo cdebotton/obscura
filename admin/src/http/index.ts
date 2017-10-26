@@ -1,9 +1,9 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import compress from 'koa-compress';
-import render from './render';
-import errors from './errors';
-import responseTime from './responseTime';
+import render from '@http/render';
+import errors from '@http/errors';
+import responseTime from '@http/responseTime';
 
 const { PORT } = process.env;
 if (!PORT) {

@@ -12,5 +12,21 @@
       }
     ]
   ],
-  "plugins": ["transform-runtime", "styled-components"]
+  "plugins": [
+    "transform-runtime",
+    "styled-components",
+    [
+      "module-resolver",
+      {
+        "root": ["./.tmp/ts"],
+        "alias": {
+          "@client": "client",
+          "@components": "components",
+          "@containers": "containers",
+          "@http": "http",
+          "@routes": "routes"
+        }
+      }
+    ]
+  ]
 }
