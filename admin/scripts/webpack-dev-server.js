@@ -40,7 +40,22 @@ const config = {
                   },
                 ],
               ],
-              plugins: ['transform-runtime', 'react-hot-loader/babel'],
+              plugins: [
+                'transform-runtime',
+                'react-hot-loader/babel',
+                [
+                  'module-resolver',
+                  {
+                    alias: {
+                      '@client': './src/client',
+                      '@components': './src/components',
+                      '@containers': './src/containers',
+                      '@http': './src/http',
+                      '@routes': './src/routes',
+                    },
+                  },
+                ],
+              ],
             },
           },
           'ts-loader',

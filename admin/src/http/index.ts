@@ -1,9 +1,9 @@
+import errors from '@http/errors';
+import render from '@http/render';
+import responseTime from '@http/responseTime';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import compress from 'koa-compress';
-import render from '@http/render';
-import errors from '@http/errors';
-import responseTime from '@http/responseTime';
 
 const { PORT } = process.env;
 if (!PORT) {
@@ -22,5 +22,5 @@ app.use(render());
 
 const server = app.listen(PORT, () => {
   const { address, port } = server.address();
-  console.log(`Listening at ${address}${port}`);
+  process.stdout.write(`Listening at ${address}${port}`);
 });

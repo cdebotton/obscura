@@ -9,6 +9,11 @@
   "rules": {
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,
+    "interface-name": false,
+    "interface-over-type-literal": false,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "jsx-boolean-value": false,
     "import-name": false,
     "variable-name": [true, "allow-pascal-case"]
   }
