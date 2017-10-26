@@ -8,7 +8,7 @@
     "build:babel": "babel .tmp/ts --out-dir dist",
     "watch:tsc": "npm run build:tsc -- --watch --pretty --noEmit",
     "watch:webpack": "BABEL_ENV=client WEBPACK_PORT=3001 node scripts/webpack-dev-server",
-    "watch:server": "PORT=3000 WEBPACK_PORT=3001 NODE_ENV=development nodemon src/http/index.ts --watch src --exec babel-node --extensions \".ts,.tsx\"",
+    "watch:server": "PORT=3000 WEBPACK_PORT=3001 NODE_ENV=development nodemon src/http/index.ts --exec babel-node --extensions \".ts,.tsx\"",
     "dev": "npm-run-all --parallel 'watch:tsc' 'watch:server' 'watch:webpack'",
     "stop": "pm2 kill",
     "test": "echo \"Error: no test specified\" && exit 1"
