@@ -1,0 +1,77 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const express = require('express');
+
+const { argv } = require('yargs')
+  .option('host', {
+    alias: 'h',
+    default: 'http://localhost',
+  })
+  .option('port', {
+    alias: 'p',
+    default: 3001,
+  })
+  .option('config', {
+    alias: 'c',
+    default: 'webpack.config.js',
+  });
+
+const { host, port, config } = argv;
+
+const webpackConfigPath = path.join(process.cwd(), config);
+const webpackConfig = { ...require(webpackConfigPath) };
+
+webpackConfig.entry = [
+  'react-hot-loader/patch',
+  `webpack-hot-middleware/client?path=${host}:${port}/__webpack_hmr`,
+  webpackConfig.entry,
+];
+
+webpackConfig.output.publicPath = `${host}:${port}${
+  webpackConfig.output.publicPath
+}`;
+
+delete webpackConfig.output.path;
+
+webpackConfig.module.rules = webpackConfig.module.rules.map(rule => {
+  if (rule.test.exec('.tsx')) {
+    return {
+      ...rule,
+      use: ['react-hot-loader/webpack', ...rule.use],
+    };
+  }
+
+  return rule;
+});
+
+webpackConfig.plugins = [
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
+  ...webpackConfig.plugins,
+];
+
+const compiler = webpack(webpackConfig);
+const app = express();
+
+app.use(
+  webpackDevMiddleware(compiler, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    publicPath: webpackConfig.output.publicPath,
+    stats: {
+      chunks: false,
+      colors: true,
+    },
+  }),
+);
+
+app.use(webpackHotMiddleware(compiler));
+
+app.listen(port, () => {
+  process.stdout.write(`Listening at port ${port}`);
+});
