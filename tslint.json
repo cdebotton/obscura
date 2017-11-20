@@ -9,6 +9,7 @@
   "rules": {
     "interface-over-type-literal": false,
     "no-submodule-imports": false,
+    "no-unused-expression": [true, "allow-tagged-template"],
     "variable-name": [true, "allow-pascal-case"]
   }
 }

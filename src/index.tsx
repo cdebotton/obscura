@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as React from 'react';
+import { StaticRouter } from 'react-router';
 import { Html } from './components/templates/Html';
 import { Root } from './containers/Root';
 import { app } from './http/index';
@@ -12,12 +13,14 @@ if (!PORT) {
 }
 
 app.use(
-  render(() => {
+  render(ctx => {
     const manifest = require(path.join(process.cwd(), 'manifest.json'));
 
     return (
       <Html manifest={manifest}>
-        <Root />
+        <StaticRouter context={ctx} location={ctx.req.url}>
+          <Root />
+        </StaticRouter>
       </Html>
     );
   }),
