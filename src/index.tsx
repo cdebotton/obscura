@@ -1,9 +1,14 @@
 import 'reflect-metadata';
 
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
 import { graphiqlKoa, graphqlKoa } from 'apollo-server-koa';
 import * as Router from 'koa-router';
+import * as nodeFetch from 'node-fetch';
 import * as path from 'path';
 import * as React from 'react';
+import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { StaticRouter } from 'react-router';
 import { createConnection } from 'typeorm';
 import { schema } from './api/schema';
@@ -49,16 +54,40 @@ const createApp = async () => {
   app.use(router.routes());
 
   app.use(
-    render(ctx => {
+    render(async ctx => {
+      const client = new ApolloClient({
+        cache: new InMemoryCache() as any, // TODO: Gross
+        link: createHttpLink({
+          credentials: 'same-origin',
+          fetch: nodeFetch as any, // TODO: Gross,
+          headers: {
+            cookie: ctx.cookies,
+          },
+          uri: 'http://localhost:3000/graphql',
+        }),
+        ssrMode: true,
+      });
+
       const manifest = require(path.join(process.cwd(), 'manifest.json'));
 
-      return (
-        <Html manifest={manifest}>
+      const root = (
+        <ApolloProvider client={client}>
           <StaticRouter context={ctx} location={ctx.req.url}>
             <Root />
           </StaticRouter>
+        </ApolloProvider>
+      );
+
+      await getDataFromTree(root);
+      const initialState = client.cache.extract();
+
+      const tree = (
+        <Html manifest={manifest} state={initialState}>
+          {root}
         </Html>
       );
+
+      return tree;
     }),
   );
 

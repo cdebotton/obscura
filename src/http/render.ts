@@ -4,11 +4,14 @@ import * as React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
 import { StringStream } from './string-stream';
 
-type AppCallback = (ctx: Koa.Context) => React.ReactElement<any>;
+type AppCallback = (ctx: Koa.Context) => Promise<React.ReactElement<any>>;
 
-export const render = (appCallback: AppCallback) => (ctx: Koa.Context) => {
+export const render = (appCallback: AppCallback) => async (
+  ctx: Koa.Context,
+) => {
   const doctype = new StringStream('<!doctype>');
-  const markup = renderToNodeStream(appCallback(ctx));
+  const app = await appCallback(ctx);
+  const markup = renderToNodeStream(app);
 
   ctx.set('Content-Type', 'text/html');
   ctx.body = merge2(doctype, markup);

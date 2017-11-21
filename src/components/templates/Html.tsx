@@ -13,9 +13,10 @@ injectGlobal`
 type Props = {
   children: React.ReactElement<any>;
   manifest: { [x: string]: string };
+  state: { [x: string]: any };
 };
 
-export const Html = ({ children, manifest }: Props) => {
+export const Html = ({ children, manifest, state }: Props) => {
   const sheet = new ServerStyleSheet();
   sheet.collectStyles(children);
 
@@ -27,6 +28,14 @@ export const Html = ({ children, manifest }: Props) => {
       </head>
       <body>
         <main id="app">{children}</main>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(
+              /</g,
+              '\\u003c',
+            )}`,
+          }}
+        />
         <script src={manifest['main.js']} />
       </body>
     </html>
