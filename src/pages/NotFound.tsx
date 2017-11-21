@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Header } from '../components/atoms/Header';
+import { Heading } from '../components/atoms/Heading';
 import { Page } from '../components/atoms/Page';
 import { Status } from '../containers/Status';
 
 type Props = RouteComponentProps<void>;
 
-export const NotFound = ({ location }: Props) => (
+export const NotFound: React.SFC<Props> = ({ location }) => (
   <Status code={404}>
     <Page>
-      <Header>Page not found</Header>
+      <Heading>Page not found</Heading>
       <p>
         We couldn't find <code>{location.pathname}</code>
       </p>
