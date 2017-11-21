@@ -5,6 +5,7 @@ import { BreadcrumbBar } from '../components/atoms/BreadcrumbBar';
 import { Header } from '../components/atoms/Header';
 import { Heading } from '../components/atoms/Heading';
 import { Outlet } from '../components/atoms/Outlet';
+import { Row } from '../components/atoms/Row';
 import { Sidebar } from '../components/atoms/Sidebar';
 import { AdminLayout } from '../components/layouts/AdminLayout';
 import { AdminDashboard } from './AdminDashboard';
@@ -18,12 +19,14 @@ export const Admin: React.SFC<Props> = ({ match }) => (
       <Heading>Admin</Heading>
     </Header>
     <BreadcrumbBar>Breadcrumbs</BreadcrumbBar>
-    <Sidebar>Sidebar</Sidebar>
-    <Outlet>
-      <Switch>
-        <Route exact path={match.url} component={AdminDashboard} />
-        <Route component={NotFound} />
-      </Switch>
-    </Outlet>
+    <Row>
+      <Sidebar>Sidebar</Sidebar>
+      <Outlet>
+        <Switch>
+          <Route exact path={match.url} component={AdminDashboard} />
+          <Route component={NotFound} />
+        </Switch>
+      </Outlet>
+    </Row>
   </AdminLayout>
 );

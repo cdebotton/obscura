@@ -3,16 +3,21 @@ import styled from 'styled-components';
 import { BreadcrumbBar } from '../atoms/BreadcrumbBar';
 import { Header } from '../atoms/Header';
 import { Outlet } from '../atoms/Outlet';
+import { Row } from '../atoms/Row';
 import { Sidebar } from '../atoms/Sidebar';
 import { Layout } from './Layout';
 
 export const AdminLayout = styled(Layout)`
+  flex-flow: column nowrap;
+  align-content: stretch;
   justify-content: flex-start;
-  align-content: flex-start;
-  align-items: stretch;
 
   ${Header}, ${BreadcrumbBar} {
-    flex: 0 0 100%;
+    flex: 0 0 auto;
+  }
+
+  ${Row} {
+    flex: 1 0 auto;
   }
 
   ${Sidebar} {
