@@ -7,7 +7,11 @@
     "tslint-react"
   ],
   "rules": {
+    "import-name": false,
     "interface-over-type-literal": false,
+    "jsx-boolean-value": false,
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
     "no-submodule-imports": false,
     "no-unused-expression": [true, "allow-tagged-template"],
     "variable-name": [true, "allow-pascal-case"]

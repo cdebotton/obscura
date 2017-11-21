@@ -41,6 +41,8 @@
     "@types/react": "16.0.25",
     "@types/react-dom": "16.0.3",
     "@types/react-redux": "5.0.13",
+    "@types/react-router": "^4.0.17",
+    "@types/react-router-dom": "^4.2.1",
     "@types/webpack": "3.8.1",
     "@types/webpack-dev-middleware": "1.9.4",
     "@types/webpack-env": "^1.13.2",
@@ -55,7 +57,6 @@
     "stylelint-config-idiomatic-order": "^5.0.0",
     "stylelint-config-standard": "^17.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-config-styled-components-processor": "^0.1.1",
     "stylelint-order": "^0.7.0",
     "stylelint-processor-styled-components": "^1.0.0",
     "ts-loader": "^3.1.1",
@@ -71,5 +72,8 @@
     "webpack-hot-middleware": "2.20.0",
     "webpack-manifest-plugin": "2.0.0-rc.1",
     "yargs": "^10.0.3"
+  },
+  "resolutions": {
+    "typescript": "~2.4.0"
   }
 }

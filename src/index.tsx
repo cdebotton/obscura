@@ -2,9 +2,9 @@ import * as path from 'path';
 import * as React from 'react';
 import { StaticRouter } from 'react-router';
 import { Html } from './components/templates/Html';
-import { Root } from './containers/Root';
 import { app } from './http/index';
 import { render } from './http/render';
+import { Root } from './pages/Root';
 import { Emoji, start } from './utils/Logger';
 
 const { PORT } = process.env;

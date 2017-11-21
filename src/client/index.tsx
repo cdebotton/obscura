@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Router } from 'react-router';
-import { Root } from '../containers/Root';
+import { Root } from '../pages/Root';
 import { history } from './history';
 
 const mount = document.getElementById('app');
@@ -18,5 +18,5 @@ const render = () => {
 render();
 
 if (module.hot) {
-  module.hot.accept('../containers/Root', render);
+  module.hot.accept('../pages/Root', render);
 }

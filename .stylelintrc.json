@@ -6,5 +6,8 @@
     "stylelint-config-idiomatic-order"
   ],
   "plugins": ["stylelint-order"],
-  "syntax": "scss"
+  "syntax": "scss",
+  "rules": {
+    "no-empty-source": null
+  }
 }
