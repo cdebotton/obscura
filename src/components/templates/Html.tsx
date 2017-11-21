@@ -8,6 +8,12 @@ import {
 
 injectGlobal`
   ${normalize() as SimpleInterpolation}
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 `;
 
 type Props = {

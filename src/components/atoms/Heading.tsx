@@ -12,4 +12,6 @@ const HeadingBase: React.SFC<Props> = ({ level = 1, ...rest }) =>
 
 export const Heading = styled<Props>(HeadingBase)`
   font-size: ${props => modularScale(6 - (props.level || 1))};
+  padding: 0;
+  margin: 0;
 `;

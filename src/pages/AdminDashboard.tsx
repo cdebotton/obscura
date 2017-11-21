@@ -35,7 +35,7 @@ export const AdminDashboard = withUsers(({ data }) => {
 
   return (
     <Page>
-      <Heading>Admin Dashboard</Heading>
+      <Heading level={2}>Admin Dashboard</Heading>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {users && (

@@ -38,7 +38,7 @@ webpackConfig.output.publicPath = `${host}:${port}${
 delete webpackConfig.output.path;
 
 webpackConfig.module.rules = webpackConfig.module.rules.map(rule => {
-  if (rule.test.exec('.tsx')) {
+  if (rule.test.exec('.tsx') || rule.test.exec('.jsx')) {
     return {
       ...rule,
       use: ['react-hot-loader/webpack', ...rule.use],
@@ -73,5 +73,5 @@ app.use(
 app.use(webpackHotMiddleware(compiler));
 
 app.listen(port, () => {
-  process.stdout.write(`Listening at port ${port}`);
+  process.stdout.write(`Listening at port ${port}\n`);
 });
