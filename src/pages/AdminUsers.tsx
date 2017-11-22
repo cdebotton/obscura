@@ -3,7 +3,7 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { Heading } from '../components/atoms/Heading';
 import { Page } from '../components/atoms/Page';
-import { addField, makeForm } from '../containers/form';
+import { NewUserForm } from '../forms/NewUserForm';
 
 type User = {
   id: number;
@@ -23,32 +23,42 @@ const CreateNewUserQuery = gql`
 
 const withCreateNewUser = graphql<User>(CreateNewUserQuery);
 
-class NewUserForm {
-  @addField() public readonly email: string;
-  @addField() public readonly username: string;
-  @addField() public readonly password: string;
-}
-
-const Form = makeForm(NewUserForm);
-
 const CreateNewUserForm = withCreateNewUser(({ mutate }) => (
-  <Form>
-    {({ fields }) => (
+  <NewUserForm>
+    {({ fields, getState }) => (
       <form
-        onSubmit={() => {
+        onSubmit={event => {
+          event.preventDefault();
           if (mutate) {
+            const { username, email, password } = getState();
             mutate({
-              variables: {},
+              variables: { username, email, password },
             });
           }
         }}
       >
-        <input type="text" value={fields.email.value} />
-        <input type="text" />
-        <input type="password" />
+        <input
+          type="email"
+          placeholder="Email"
+          value={fields.email.value}
+          onChange={fields.email.onChange}
+        />
+        <input
+          type="text"
+          placeholder="Username"
+          value={fields.username.value}
+          onChange={fields.username.onChange}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={fields.password.value}
+          onChange={fields.password.onChange}
+        />
+        <button type="submit">Save</button>
       </form>
     )}
-  </Form>
+  </NewUserForm>
 ));
 
 type Response = {
@@ -78,6 +88,9 @@ export const AdminUsers = withUsers(({ data }) => {
       <CreateNewUserForm />
       {data.loading && <p>Loading...</p>}
       {data.error && <p>{data.error.message}</p>}
+      {data.users && (
+        <ul>{data.users.map(user => <li key={user.id}>{user.email}</li>)}</ul>
+      )}
     </Page>
   );
 });

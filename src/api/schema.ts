@@ -22,7 +22,7 @@ type CreateUserArgs = {
 
 const resolvers = {
   Query: {
-    users(_0: Root, _1: Root, { userRepository }: Context) {
+    users: (_0: Root, _1: Root, { userRepository }: Context) => {
       return userRepository.find();
     },
   },
