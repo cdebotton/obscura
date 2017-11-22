@@ -1,0 +1,1 @@
+export { ThemeInterface } from './interface';

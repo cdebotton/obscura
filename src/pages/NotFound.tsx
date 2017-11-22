@@ -9,7 +9,7 @@ type Props = RouteComponentProps<void>;
 export const NotFound: React.SFC<Props> = ({ location }) => (
   <Status code={404}>
     <Page>
-      <Heading>Page not found</Heading>
+      <Heading level={2}>Page not found</Heading>
       <p>
         We couldn't find <code>{location.pathname}</code>
       </p>

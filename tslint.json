@@ -8,6 +8,7 @@
   ],
   "rules": {
     "import-name": false,
+    "interface-name": false,
     "interface-over-type-literal": false,
     "jsx-boolean-value": false,
     "jsx-no-lambda": false,

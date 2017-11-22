@@ -3,28 +3,30 @@ import styled from 'styled-components';
 import { BreadcrumbBar } from '../atoms/BreadcrumbBar';
 import { Header } from '../atoms/Header';
 import { Outlet } from '../atoms/Outlet';
-import { Row } from '../atoms/Row';
 import { Sidebar } from '../atoms/Sidebar';
 import { Layout } from './Layout';
 
 export const AdminLayout = styled(Layout)`
-  flex-flow: column nowrap;
-  align-content: stretch;
-  justify-content: flex-start;
+  grid:
+    [row1-start] 'header header' min-content [row1-end]
+    [row2-start] 'sidebar breadcrumb-bar' min-content [row2-end]
+    [row3-start] 'sidebar outlet' auto [row3-end]
+    / ${rem(60)} auto;
 
-  ${Header}, ${BreadcrumbBar} {
-    flex: 0 0 auto;
+  ${Header} {
+    grid-area: header;
   }
 
-  ${Row} {
-    flex: 1 0 auto;
+  ${BreadcrumbBar} {
+    grid-area: breadcrumb-bar;
   }
 
   ${Sidebar} {
-    flex: 0 0 ${rem(212)};
+    grid-area: sidebar;
   }
 
   ${Outlet} {
-    flex: 1 1 auto;
+    border-left: 1px solid #efefef;
+    grid-area: outlet;
   }
 `;
