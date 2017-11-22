@@ -43,7 +43,6 @@ const CreateNewUserForm = withCreateNewUser(({ mutate }) => (
           }
         }}
       >
-        \
         <input type="text" value={fields.email.value} />
         <input type="text" />
         <input type="password" />

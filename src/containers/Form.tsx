@@ -14,10 +14,10 @@ type State<T> = {
   };
 };
 
-export function makeForm<T>(
-  target: new () => T,
-): React.ComponentClass<Props<T>> {
+export function makeForm<T>(target: new () => T) {
   return class extends Component<Props<T>, State<T>> {
+    public static displayName = `${typeof target}Component`;
+
     public constructor(props: Props<T>) {
       super(props);
 
