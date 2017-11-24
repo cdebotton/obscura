@@ -3,63 +3,13 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { Heading } from '../components/atoms/Heading';
 import { Page } from '../components/atoms/Page';
-import { NewUserForm } from '../forms/NewUserForm';
+import { createTypedForm, field } from '../containers/Form';
 
 type User = {
   id: number;
   email: string;
   username: string;
 };
-
-const CreateNewUserQuery = gql`
-  mutation createUser($email: String!, $username: String!, $password: String!) {
-    createUser(email: $email, username: $username, password: $password) {
-      id
-      username
-      email
-    }
-  }
-`;
-
-const withCreateNewUser = graphql<User>(CreateNewUserQuery);
-
-const CreateNewUserForm = withCreateNewUser(({ mutate }) => (
-  <NewUserForm>
-    {({ fields, getState }) => (
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          if (mutate) {
-            const { username, email, password } = getState();
-            mutate({
-              variables: { username, email, password },
-            });
-          }
-        }}
-      >
-        <input
-          type="email"
-          placeholder="Email"
-          value={fields.email.value}
-          onChange={fields.email.onChange}
-        />
-        <input
-          type="text"
-          placeholder="Username"
-          value={fields.username.value}
-          onChange={fields.username.onChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={fields.password.value}
-          onChange={fields.password.onChange}
-        />
-        <button type="submit">Save</button>
-      </form>
-    )}
-  </NewUserForm>
-));
 
 type Response = {
   users: User[];
@@ -75,7 +25,26 @@ const GetUsersQuery = gql`
   }
 `;
 
+const CreateNewUserQuery = gql`
+  mutation createUser($email: String!, $username: String!, $password: String!) {
+    createUser(email: $email, username: $username, password: $password) {
+      id
+      username
+      email
+    }
+  }
+`;
+
 const withUsers = graphql<Response>(GetUsersQuery);
+const withCreateNewUser = graphql<User>(CreateNewUserQuery);
+
+class NewUserSchema {
+  @field() public username: string;
+  @field() public password: string;
+  @field() public email: string;
+}
+
+const Form = createTypedForm(NewUserSchema);
 
 export const AdminUsers = withUsers(({ data }) => {
   if (!data) {
@@ -85,7 +54,26 @@ export const AdminUsers = withUsers(({ data }) => {
   return (
     <Page>
       <Heading level={2}>Users</Heading>
-      <CreateNewUserForm />
+      {withCreateNewUser(() => (
+        <Form>
+          {({ fields }) => (
+            <form>
+              <input type="email" placeholder="Email" {...fields.email} />
+              <input
+                type="username"
+                placeholder="Username"
+                {...fields.username}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                {...fields.password}
+              />
+              <button type="submit">Save</button>
+            </form>
+          )}
+        </Form>
+      ))}
       {data.loading && <p>Loading...</p>}
       {data.error && <p>{data.error.message}</p>}
       {data.users && (
