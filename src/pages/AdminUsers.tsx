@@ -3,7 +3,7 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { Heading } from '../components/atoms/Heading';
 import { Page } from '../components/atoms/Page';
-import { createTypedForm, field } from '../containers/Form';
+import { createTypedForm } from '../containers/Form';
 
 type User = {
   id: number;
@@ -38,13 +38,32 @@ const CreateNewUserQuery = gql`
 const withUsers = graphql<Response>(GetUsersQuery);
 const withCreateNewUser = graphql<User>(CreateNewUserQuery);
 
-class NewUserSchema {
-  @field() public username: string;
-  @field() public password: string;
-  @field() public email: string;
+interface CreateUsersFormValues {
+  username: string;
+  password: string;
+  email: string;
 }
 
-const Form = createTypedForm(NewUserSchema);
+const Form = createTypedForm<CreateUsersFormValues>();
+
+const CreateUserForm = withCreateNewUser(() => (
+  <Form
+    initialValues={{
+      email: '',
+      password: '',
+      username: '',
+    }}
+  >
+    {({ fields }) => (
+      <form>
+        <input type="email" placeholder="Email" {...fields.email} />
+        <input type="username" placeholder="Username" {...fields.username} />
+        <input type="password" placeholder="Password" {...fields.password} />
+        <button type="submit">Save</button>
+      </form>
+    )}
+  </Form>
+));
 
 export const AdminUsers = withUsers(({ data }) => {
   if (!data) {
@@ -54,26 +73,7 @@ export const AdminUsers = withUsers(({ data }) => {
   return (
     <Page>
       <Heading level={2}>Users</Heading>
-      {withCreateNewUser(() => (
-        <Form>
-          {({ fields }) => (
-            <form>
-              <input type="email" placeholder="Email" {...fields.email} />
-              <input
-                type="username"
-                placeholder="Username"
-                {...fields.username}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                {...fields.password}
-              />
-              <button type="submit">Save</button>
-            </form>
-          )}
-        </Form>
-      ))}
+      <CreateUserForm />
       {data.loading && <p>Loading...</p>}
       {data.error && <p>{data.error.message}</p>}
       {data.users && (
