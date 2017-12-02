@@ -56,7 +56,7 @@ const createApp = async () => {
   app.use(
     render(async ctx => {
       const client = new ApolloClient({
-        cache: new InMemoryCache() as any, // TODO: Gross
+        cache: new InMemoryCache(),
         link: createHttpLink({
           credentials: 'same-origin',
           fetch: nodeFetch as any, // TODO: Gross,
@@ -68,8 +68,6 @@ const createApp = async () => {
         ssrMode: true,
       });
 
-      const manifest = require(path.join(process.cwd(), 'manifest.json'));
-
       const root = (
         <ApolloProvider client={client}>
           <StaticRouter context={ctx} location={ctx.req.url}>
@@ -79,15 +77,15 @@ const createApp = async () => {
       );
 
       await getDataFromTree(root);
-      const initialState = client.cache.extract();
 
-      const tree = (
+      const initialState = client.cache.extract();
+      const manifest = require(path.join(process.cwd(), 'manifest.json'));
+
+      return (
         <Html manifest={manifest} state={initialState}>
           {root}
         </Html>
       );
-
-      return tree;
     }),
   );
 

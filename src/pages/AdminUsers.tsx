@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 import * as React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import { Heading } from '../components/atoms/Heading';
 import { Page } from '../components/atoms/Page';
-import { createTypedForm } from '../containers/Form';
+import { CreateUserForm } from '../components/organisms/CreateUserForm';
 
 type User = {
   id: number;
@@ -36,49 +36,26 @@ const CreateNewUserQuery = gql`
 `;
 
 const withUsers = graphql<Response>(GetUsersQuery);
-const withCreateNewUser = graphql<User>(CreateNewUserQuery);
+const withCreateNewUser = graphql<User>(CreateNewUserQuery, { name: 'user' });
 
-interface CreateUsersFormValues {
-  username: string;
-  password: string;
-  email: string;
-}
-
-const Form = createTypedForm<CreateUsersFormValues>();
-
-const CreateUserForm = withCreateNewUser(() => (
-  <Form
-    initialValues={{
-      email: '',
-      password: '',
-      username: '',
-    }}
-  >
-    {({ fields }) => (
-      <form>
-        <input type="email" placeholder="Email" {...fields.email} />
-        <input type="username" placeholder="Username" {...fields.username} />
-        <input type="password" placeholder="Password" {...fields.password} />
-        <button type="submit">Save</button>
-      </form>
-    )}
-  </Form>
-));
-
-export const AdminUsers = withUsers(({ data }) => {
-  if (!data) {
-    return null;
-  }
-
-  return (
-    <Page>
-      <Heading level={2}>Users</Heading>
-      <CreateUserForm />
-      {data.loading && <p>Loading...</p>}
-      {data.error && <p>{data.error.message}</p>}
-      {data.users && (
-        <ul>{data.users.map(user => <li key={user.id}>{user.email}</li>)}</ul>
-      )}
-    </Page>
-  );
-});
+export const AdminUsers = compose(withCreateNewUser, withUsers)(
+  ({ data, mutate: _ }) => {
+    return (
+      <Page>
+        <Heading level={2}>Users</Heading>
+        <CreateUserForm
+          onSubmit={values => {
+            console.log(values);
+          }}
+        />
+        {data!.loading && <p>Loading...</p>}
+        {data!.error && <p>{data!.error!.message}</p>}
+        {data!.users && (
+          <ul>
+            {data!.users!.map(user => <li key={user.id}>{user.email}</li>)}
+          </ul>
+        )}
+      </Page>
+    );
+  },
+);
