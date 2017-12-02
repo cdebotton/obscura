@@ -1,7 +1,19 @@
 import * as React from 'react';
-import { initForm, reducer, State, updateTouched, updateValue } from './state';
+import {
+  Errors,
+  initForm,
+  reducer,
+  State,
+  updateDirty,
+  updateErrors,
+  updateTouched,
+  updateValue,
+} from './state';
 
 type FormContext<T> = State<T> & {
+  isDirty: boolean;
+  isValid: boolean;
+  isSubmitting: boolean;
   fields: {
     [K in keyof T]: {
       id: string;
@@ -12,6 +24,7 @@ type FormContext<T> = State<T> & {
   };
   onTouchField: (fieldName: keyof T) => void;
   onUpdateField: <K extends keyof T>(fieldName: K, value: T[K]) => void;
+  onReset: () => void;
   onSubmit: (event: React.FormEvent<any>) => void | Promise<void>;
 };
 
@@ -19,16 +32,20 @@ interface Props<T> {
   children: (context: FormContext<T>) => React.ReactNode;
   initialValues: T;
   onSubmit: (values: T) => void | Promise<void>;
+  validate?: (values: T) => Errors<T>;
 }
 
 export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
+  private snapshot: State<T>;
+
   public constructor(props: Props<T>) {
     super(props);
 
     this.state = reducer(
       {
-        errors: {},
+        errors: props.validate ? props.validate(props.initialValues) : {},
         fields: props.initialValues,
+        isDirty: false,
         isSubmitting: false,
         touched: Object.keys(props.initialValues).reduce(
           (acc, key) => ({
@@ -40,6 +57,8 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
       },
       initForm,
     );
+
+    this.snapshot = this.state;
   }
 
   public render() {
@@ -56,6 +75,9 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
           },
         };
       }, {}),
+      isDirty: this.state.isDirty,
+      isValid: Object.keys(this.state.errors).length === 0,
+      onReset: this.onReset,
       onSubmit: this.onSubmit,
       onTouchField: this.onTouchField,
       onUpdateField: this.onUpdateField,
@@ -79,11 +101,28 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
   };
 
   private onUpdateField = <K extends keyof T>(fieldName: K, value: T[K]) => {
-    this.setState(state => reducer(state, updateValue({ fieldName, value })));
+    let nextState = reducer(this.state, updateValue({ fieldName, value }));
+    nextState = reducer(nextState, updateDirty(true));
+
+    if (typeof this.props.validate === 'function') {
+      const errors = this.props.validate(this.state.fields);
+      nextState = reducer(nextState, updateErrors(errors));
+    }
+
+    this.setState(nextState);
   };
 
   private onSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault();
+
+    this.setState(state => reducer(state, updateDirty(false)));
+
     this.props.onSubmit(this.state.fields);
+
+    this.snapshot = this.state;
+  };
+
+  private onReset = () => {
+    this.setState(this.snapshot);
   };
 }
