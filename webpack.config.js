@@ -29,7 +29,7 @@ const config = {
             options: {
               compilerOptions: {
                 module: 'es2015',
-                target: 'es2015',
+                target: 'es5',
                 moduleResolution: 'node',
               },
             },

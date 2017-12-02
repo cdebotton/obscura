@@ -18,7 +18,7 @@ export function combineReducers<S = any, A extends AnyAction = AnyAction>(
         continue;
       }
       const reducer = reducers[key];
-      nextState[key] = reducer(state, action);
+      nextState[key] = reducer(state[key], action);
       hasChanged = hasChanged || nextState[key] !== state[key];
     }
 

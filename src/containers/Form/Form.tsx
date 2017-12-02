@@ -3,8 +3,9 @@ import { initForm, reducer, State, updateTouched, updateValue } from './state';
 
 type FormContext<T> = State<T> & {
   fields: {
-    [K in keyof T]: State<T>['fields'][K] & {
+    [K in keyof T]: {
       id: string;
+      value: T[K];
       onBlur: (event: React.SyntheticEvent<any>) => void;
       onChange: (event: React.ChangeEvent<any>) => void;
     }
@@ -20,7 +21,7 @@ interface Props<T> {
   onSubmit: (values: T) => void | Promise<void>;
 }
 
-export class Form<T> extends React.Component<Props<T>, State<T>> {
+export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
   public constructor(props: Props<T>) {
     super(props);
 
@@ -49,25 +50,36 @@ export class Form<T> extends React.Component<Props<T>, State<T>> {
           ...(acc as any),
           [key]: {
             id: key,
+            onBlur: this.onBlur,
+            onChange: this.onChange,
             value: this.state.fields[key],
           },
         };
       }, {}),
-      isSubmitting: false,
       onSubmit: this.onSubmit,
       onTouchField: this.onTouchField,
       onUpdateField: this.onUpdateField,
     });
   }
 
+  private onChange = ({
+    currentTarget: { id, value },
+  }: React.ChangeEvent<any>) => {
+    this.onUpdateField(id, value);
+  };
+
+  private onBlur = ({ currentTarget: { id } }: React.FormEvent<any>) => {
+    this.onTouchField(id);
+  };
+
   private onTouchField = (fieldName: keyof T) => {
-    this.setState(
-      reducer(this.state, updateTouched({ fieldName, touched: true })),
+    this.setState(state =>
+      reducer(state, updateTouched({ fieldName, touched: true })),
     );
   };
 
   private onUpdateField = <K extends keyof T>(fieldName: K, value: T[K]) => {
-    this.setState(reducer(this.state, updateValue({ fieldName, value })));
+    this.setState(state => reducer(state, updateValue({ fieldName, value })));
   };
 
   private onSubmit = (event: React.FormEvent<any>) => {
