@@ -111,17 +111,20 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
   public render() {
     return this.props.children({
       ...this.state,
-      fields: Object.keys(this.state.fields).reduce((acc, key) => {
-        return {
-          ...(acc as any),
-          [key]: {
-            id: key,
-            onBlur: this.onBlur,
-            onChange: this.onChange,
-            value: this.state.fields[key],
-          },
-        };
-      }, {}),
+      fields: Object.keys(this.state.fields)
+        .map(fieldName => ({
+          id: fieldName,
+          onBlur: this.onBlur,
+          onChange: this.onChange,
+          value: this.state.fields[fieldName],
+        }))
+        .reduce(
+          (acc, value) => ({
+            ...(acc as any),
+            [value.id]: value,
+          }),
+          {},
+        ),
       isDirty: Object.keys(this.state.dirty)
         .map(f => this.state.dirty[f] === true)
         .some(f => f === true),
@@ -197,7 +200,7 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
     this.props.onSubmit(this.state.fields);
 
     let nextState = { ...this.state };
-    Object.keys(this.state.fields).forEach(fieldName => {
+    Object.keys(nextState.fields).forEach(fieldName => {
       nextState = this.reduce(
         nextState,
         updateTouched({ fieldName, touched: false }),
@@ -213,6 +216,9 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
     });
   };
 
+  /**
+   * Resets the form to a previous snapshot.
+   */
   private onReset = () => {
     this.setState(this.snapshot);
   };
