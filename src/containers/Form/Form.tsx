@@ -5,7 +5,6 @@ import {
   Errors,
   initForm,
   State,
-  updateAllDirty,
   updateDirty,
   updateErrors,
   updateTouched,
@@ -188,14 +187,30 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
     this.setState(nextState);
   };
 
+  /**
+   * Submit the form. After submission, if successful, reset
+   * the state of the form to clean and create a new snapshot.
+   */
   private onSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault();
 
-    this.setState(state =>
-      this.reduce(state, updateAllDirty(this.falseObject)),
-    );
     this.props.onSubmit(this.state.fields);
-    this.snapshot = this.state;
+
+    let nextState = { ...this.state };
+    Object.keys(this.state.fields).forEach(fieldName => {
+      nextState = this.reduce(
+        nextState,
+        updateTouched({ fieldName, touched: false }),
+      );
+      nextState = this.reduce(
+        nextState,
+        updateDirty({ fieldName, dirty: false }),
+      );
+    });
+
+    this.setState(nextState, () => {
+      this.snapshot = this.state;
+    });
   };
 
   private onReset = () => {

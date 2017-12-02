@@ -44,19 +44,12 @@ interface UpdateDirty {
 const UPDATE_DIRTY = Symbol('UPDATE_DIRTY');
 export const updateDirty = actionCreator<UpdateDirty>(UPDATE_DIRTY);
 
-const UPDATE_ALL_DRITY = Symbol('UPDATE_ALL_DRITY');
-export const updateAllDirty = actionCreator<Dirty<any>>(UPDATE_ALL_DRITY);
-
 function dirty<T>(state: Dirty<T>, action: AnyAction): Dirty<T> {
   if (isType(action, updateDirty)) {
     return {
       ...(state as any),
       [action.payload.fieldName]: action.payload.dirty,
     };
-  }
-
-  if (isType(action, updateAllDirty)) {
-    return action.payload as Dirty<T>;
   }
 
   return state;
