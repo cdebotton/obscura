@@ -1,2 +1,2 @@
 export { createTypedForm } from './createTypedForm';
-export { Errors as FormErrors } from './state';
+export { Errors as FormErrors, Touched } from './state';

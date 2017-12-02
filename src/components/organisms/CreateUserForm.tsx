@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createTypedForm, FormErrors } from '../../containers/Form';
+import { Input } from '../molecules/Input';
 
 interface Props {
   onSubmit: (values: Values) => void;
@@ -49,20 +50,9 @@ export const CreateUserForm = ({ onSubmit }: Props) => (
       errors,
     }) => (
       <form onSubmit={handleSubmit}>
-        <div>
-          <input type="email" placeholder="Email" {...fields.email} />
-          {touched.email && errors.email && <span>{errors.email}</span>}
-        </div>
-        <div>
-          <input type="username" placeholder="Username" {...fields.username} />
-          {touched.username &&
-            errors.username && <span>{errors.username}</span>}
-        </div>
-        <div>
-          <input type="password" placeholder="Password" {...fields.password} />
-          {touched.password &&
-            errors.password && <span>{errors.password}</span>}
-        </div>
+        <Input label="Email" {...fields.email} {...{ touched, errors }} />
+        <Input label="Username" {...fields.username} {...{ touched, errors }} />
+        <Input label="Password" {...fields.password} {...{ touched, errors }} />
         <button type="submit" disabled={!isDirty || !isValid}>
           Save
         </button>
