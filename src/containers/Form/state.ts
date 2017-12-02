@@ -13,7 +13,7 @@ export const submitSuccess = actionCreator(SUBMIT_SUCCESS);
 export const submitFailure = actionCreator(SUBMIT_FAILURE);
 
 export type Errors<T> = Partial<{ [K in keyof T]: string }>;
-type Touched<T> = { [K in keyof T]: boolean };
+export type Touched<T> = { [K in keyof T]: boolean };
 
 export interface State<T> {
   isDirty: boolean;
@@ -95,10 +95,12 @@ function touched<S>(state: Touched<S>, action: AnyAction): Touched<S> {
   return state;
 }
 
-export const reducer = combineReducers({
-  errors,
-  fields,
-  isDirty,
-  isSubmitting,
-  touched,
-});
+export function createReducer<T>() {
+  return combineReducers<State<T>>({
+    errors,
+    fields,
+    isDirty,
+    isSubmitting,
+    touched,
+  });
+}

@@ -1,12 +1,12 @@
 import { AnyAction } from './actions';
 
-export type Reducer<S = any, A = AnyAction> = (state: S, action: A) => S;
+export type Reducer<S, A = AnyAction> = (state: S, action: A) => S;
 
-type ReducerMap<S = any, A extends AnyAction = AnyAction> = {
-  [key: string]: Reducer<S, A>;
+type ReducerMap<S, A extends AnyAction = AnyAction> = {
+  [K in keyof S]: Reducer<S[K], A>
 };
 
-export function combineReducers<S = any, A extends AnyAction = AnyAction>(
+export function combineReducers<S, A extends AnyAction = AnyAction>(
   reducers: ReducerMap<S, A>,
 ): Reducer<S, A> {
   return (state: S, action: A): S => {

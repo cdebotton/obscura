@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { Reducer } from './combineReducers';
 import {
+  createReducer,
   Errors,
   initForm,
-  reducer,
   State,
   updateDirty,
   updateErrors,
@@ -37,11 +38,14 @@ interface Props<T> {
 
 export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
   private snapshot: State<T>;
+  private reduce: Reducer<State<T>>;
 
   public constructor(props: Props<T>) {
     super(props);
 
-    this.state = reducer(
+    this.reduce = createReducer<T>();
+
+    this.state = this.reduce(
       {
         errors: props.validate ? props.validate(props.initialValues) : {},
         fields: props.initialValues,
@@ -49,7 +53,7 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
         isSubmitting: false,
         touched: Object.keys(props.initialValues).reduce(
           (acc, key) => ({
-            ...acc,
+            ...(acc as any),
             [key]: false,
           }),
           {},
@@ -96,17 +100,17 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
 
   private onTouchField = (fieldName: keyof T) => {
     this.setState(state =>
-      reducer(state, updateTouched({ fieldName, touched: true })),
+      this.reduce(state, updateTouched({ fieldName, touched: true })),
     );
   };
 
   private onUpdateField = <K extends keyof T>(fieldName: K, value: T[K]) => {
-    let nextState = reducer(this.state, updateValue({ fieldName, value }));
-    nextState = reducer(nextState, updateDirty(true));
+    let nextState = this.reduce(this.state, updateValue({ fieldName, value }));
+    nextState = this.reduce(nextState, updateDirty(true));
 
     if (typeof this.props.validate === 'function') {
-      const errors = this.props.validate(this.state.fields);
-      nextState = reducer(nextState, updateErrors(errors));
+      const errors = this.props.validate(nextState.fields);
+      nextState = this.reduce(nextState, updateErrors(errors));
     }
 
     this.setState(nextState);
@@ -115,7 +119,7 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
   private onSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault();
 
-    this.setState(state => reducer(state, updateDirty(false)));
+    this.setState(state => this.reduce(state, updateDirty(false)));
 
     this.props.onSubmit(this.state.fields);
 
