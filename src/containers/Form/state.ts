@@ -12,11 +12,12 @@ export const submitRequest = actionCreator(SUBMIT_REQUEST);
 export const submitSuccess = actionCreator(SUBMIT_SUCCESS);
 export const submitFailure = actionCreator(SUBMIT_FAILURE);
 
+export type Dirty<T> = { [K in keyof T]: boolean };
 export type Errors<T> = Partial<{ [K in keyof T]: string }>;
 export type Touched<T> = { [K in keyof T]: boolean };
 
 export interface State<T> {
-  isDirty: boolean;
+  dirty: Dirty<T>;
   isSubmitting: boolean;
   fields: T;
   errors: Errors<T>;
@@ -35,12 +36,27 @@ function isSubmitting(state: boolean, action: AnyAction) {
   return state;
 }
 
-const UPDATE_DIRTY = Symbol('UPDATE_DIRTY');
-export const updateDirty = actionCreator<boolean>(UPDATE_DIRTY);
+interface UpdateDirty {
+  fieldName: string;
+  dirty: boolean;
+}
 
-function isDirty(state: boolean, action: AnyAction): boolean {
+const UPDATE_DIRTY = Symbol('UPDATE_DIRTY');
+export const updateDirty = actionCreator<UpdateDirty>(UPDATE_DIRTY);
+
+const UPDATE_ALL_DRITY = Symbol('UPDATE_ALL_DRITY');
+export const updateAllDirty = actionCreator<Dirty<any>>(UPDATE_ALL_DRITY);
+
+function dirty<T>(state: Dirty<T>, action: AnyAction): Dirty<T> {
   if (isType(action, updateDirty)) {
-    return action.payload;
+    return {
+      ...(state as any),
+      [action.payload.fieldName]: action.payload.dirty,
+    };
+  }
+
+  if (isType(action, updateAllDirty)) {
+    return action.payload as Dirty<T>;
   }
 
   return state;
@@ -57,13 +73,13 @@ function errors<S>(state: Errors<S>, action: AnyAction): Errors<S> {
   return state;
 }
 
-interface UpdateField {
-  fieldName: string;
-  value: any;
+interface UpdateField<T, K extends keyof T> {
+  fieldName: K;
+  value: T[K];
 }
 
 const UPDATE_VALUE = Symbol('UPDATE_FIELD');
-export const updateValue = actionCreator<UpdateField>(UPDATE_VALUE);
+export const updateValue = actionCreator<UpdateField<any, any>>(UPDATE_VALUE);
 
 function fields<S>(state: S, action: AnyAction): S {
   if (isType(action, updateValue)) {
@@ -97,9 +113,9 @@ function touched<S>(state: Touched<S>, action: AnyAction): Touched<S> {
 
 export function createReducer<T>() {
   return combineReducers<State<T>>({
+    dirty,
     errors,
     fields,
-    isDirty,
     isSubmitting,
     touched,
   });
