@@ -205,6 +205,8 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
 
     nextState = this.reduce(nextState, submitRequest());
 
+    this.setState(nextState);
+
     try {
       const submitting = this.props.onSubmit(this.state.fields);
       if (isPromise(submitting)) {
@@ -213,24 +215,25 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
       } else {
         nextState = this.reduce(nextState, submitSuccess(true));
       }
+
+      Object.keys(nextState.fields).forEach(fieldName => {
+        nextState = this.reduce(
+          nextState,
+          updateTouched({ fieldName, touched: false }),
+        );
+        nextState = this.reduce(
+          nextState,
+          updateDirty({ fieldName, dirty: false }),
+        );
+      });
+
+      this.setState(nextState, () => {
+        this.snapshot = nextState;
+      });
     } catch (err) {
       nextState = this.reduce(nextState, submitFailure(err.message));
+      this.setState(nextState);
     }
-
-    Object.keys(nextState.fields).forEach(fieldName => {
-      nextState = this.reduce(
-        nextState,
-        updateTouched({ fieldName, touched: false }),
-      );
-      nextState = this.reduce(
-        nextState,
-        updateDirty({ fieldName, dirty: false }),
-      );
-    });
-
-    this.setState(nextState, () => {
-      this.snapshot = nextState;
-    });
   };
 
   /**

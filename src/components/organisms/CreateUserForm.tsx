@@ -14,7 +14,14 @@ interface Values {
 
 const Form = createTypedForm<Values>();
 
-export const CreateUserForm = ({ onSubmit }: Props) => (
+const onSubmit = () =>
+  new Promise<void>(resolve =>
+    setTimeout(() => {
+      resolve();
+    }, 1500),
+  );
+
+export const CreateUserForm = (_: Props) => (
   <Form
     onSubmit={onSubmit}
     initialValues={{
@@ -45,6 +52,7 @@ export const CreateUserForm = ({ onSubmit }: Props) => (
       onSubmit: handleSubmit,
       onReset,
       isDirty,
+      isSubmitting,
       isValid,
       touched,
       errors,
@@ -53,8 +61,8 @@ export const CreateUserForm = ({ onSubmit }: Props) => (
         <Input label="Email" {...fields.email} {...{ touched, errors }} />
         <Input label="Username" {...fields.username} {...{ touched, errors }} />
         <Input label="Password" {...fields.password} {...{ touched, errors }} />
-        <button type="submit" disabled={!isDirty || !isValid}>
-          Save
+        <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
+          {!isSubmitting ? 'Save' : 'Saving...'}
         </button>
         <button type="reset" onClick={onReset} disabled={!isDirty}>
           Reset
