@@ -14,14 +14,7 @@ interface Values {
 
 const Form = createTypedForm<Values>();
 
-const onSubmit = () =>
-  new Promise<void>(resolve =>
-    setTimeout(() => {
-      resolve();
-    }, 1500),
-  );
-
-export const CreateUserForm = (_: Props) => (
+export const CreateUserForm = ({ onSubmit }: Props) => (
   <Form
     onSubmit={onSubmit}
     initialValues={{

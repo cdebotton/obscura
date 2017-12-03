@@ -36,16 +36,17 @@ const CreateNewUserQuery = gql`
 `;
 
 const withUsers = graphql<Response>(GetUsersQuery);
-const withCreateNewUser = graphql<User>(CreateNewUserQuery, { name: 'user' });
+const withCreateNewUser = graphql<User>(CreateNewUserQuery);
 
 export const AdminUsers = compose(withCreateNewUser, withUsers)(
-  ({ data, mutate: _ }) => {
+  ({ data, mutate }) => {
     return (
       <Page>
         <Heading level={2}>Users</Heading>
         <CreateUserForm
-          onSubmit={values => {
-            console.log(values);
+          onSubmit={async values => {
+            await mutate!({ variables: values });
+            data!.refetch();
           }}
         />
         {data!.loading && <p>Loading...</p>}
