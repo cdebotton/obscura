@@ -197,6 +197,8 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
   /**
    * Submit the form. After submission, if successful, reset
    * the state of the form to clean and create a new snapshot.
+   * This will also set the isSubmitting state of the form
+   * before the final rest state is set.
    */
   private onSubmit = async (event: React.FormEvent<any>) => {
     event.preventDefault();
