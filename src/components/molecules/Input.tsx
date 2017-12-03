@@ -13,10 +13,28 @@ interface Props {
 }
 
 const InputContainer = styled.div`
-  padding: ${rem(10)} ${rem(5)};
+  position: relative;
+  padding: ${rem(15)} ${rem(10)} ${rem(15)};
 `;
-const InputLabel = styled.label``;
-const InputError = styled.span``;
+
+const InputLabel = styled.label`
+  position: absolute;
+  top: 0;
+  left: ${rem(10)};
+  font-size: ${rem(10)};
+  font-weight: 800;
+  text-transform: uppercase;
+`;
+
+const InputError = styled.span`
+  position: absolute;
+  bottom: 0;
+  left: ${rem(10)};
+  color: red;
+  font-size: ${rem(10)};
+  font-weight: 800;
+`;
+
 const InputField = styled.input``;
 
 export const Input = ({
