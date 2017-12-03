@@ -31,6 +31,14 @@ export type FormContext<T> = State<T> & {
       onChange: (event: React.ChangeEvent<any>) => void;
     }
   };
+  metadata: {
+    [K in keyof T]: {
+      error: string | undefined;
+      isTouched: boolean;
+      isValid: boolean;
+      isDirty: boolean;
+    }
+  };
   onTouchField: (fieldName: keyof T, touched: boolean) => void;
   onUpdateField: <K extends keyof T>(fieldName: K, value: T[K]) => void;
   onReset: () => void;
@@ -123,9 +131,9 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
           value: this.state.fields[fieldName],
         }))
         .reduce(
-          (acc, value) => ({
+          (acc, field) => ({
             ...(acc as any),
-            [value.id]: value,
+            [field.id]: field,
           }),
           {},
         ),
@@ -133,6 +141,23 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
         .map(f => this.state.dirty[f] === true)
         .some(f => f === true),
       isValid: Object.keys(this.state.errors).length === 0,
+      metadata: Object.keys(this.state.fields)
+        .map(fieldName => [
+          fieldName,
+          {
+            error: this.state.errors[fieldName],
+            isDirty: this.state.dirty[fieldName] === true,
+            isTouched: this.state.touched[fieldName],
+            isValid: typeof this.state.errors[fieldName] === 'undefined',
+          },
+        ])
+        .reduce(
+          (acc, [fieldName, fieldMetadata]) => ({
+            ...(acc as any),
+            [fieldName as string]: fieldMetadata,
+          }),
+          {},
+        ),
       onReset: this.onReset,
       onSubmit: this.onSubmit,
       onTouchField: this.onTouchField,

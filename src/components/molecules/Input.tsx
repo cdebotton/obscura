@@ -1,24 +1,26 @@
 import * as React from 'react';
-import { FormErrors, Touched } from '../../containers/Form';
 
 interface Props {
   id: string;
   label: string;
-  errors: FormErrors<any>;
-  touched: Touched<any>;
+  error: string | undefined;
+  isDirty: boolean;
+  isValid: boolean;
+  isTouched: boolean;
   value: string;
 }
 
 export const Input = ({
   label,
-  errors,
-  touched,
+  error,
+  isValid,
+  isDirty,
+  isTouched,
   ...inputProps,
 }: React.HTMLProps<HTMLInputElement> & Props) => (
   <span>
     {inputProps.value.trim() !== '' && <label>{label}</label>}
-    <input {...inputProps} />
-    {touched[inputProps.id] &&
-      errors[inputProps.id] && <span>{errors[inputProps.id]}</span>}
+    <input placeholder={label} {...inputProps} />
+    {isDirty && isTouched && !isValid && <span>{error}</span>}
   </span>
 );

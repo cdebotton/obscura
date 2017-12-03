@@ -49,18 +49,17 @@ export const CreateUserForm = (_: Props) => (
   >
     {({
       fields,
+      metadata,
       onSubmit: handleSubmit,
       onReset,
       isDirty,
       isSubmitting,
       isValid,
-      touched,
-      errors,
     }) => (
       <form onSubmit={handleSubmit}>
-        <Input label="Email" {...fields.email} {...{ touched, errors }} />
-        <Input label="Username" {...fields.username} {...{ touched, errors }} />
-        <Input label="Password" {...fields.password} {...{ touched, errors }} />
+        <Input label="Email" {...fields.email} {...metadata.email} />
+        <Input label="Username" {...fields.username} {...metadata.username} />
+        <Input label="Password" {...fields.password} {...metadata.password} />
         <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
           {!isSubmitting ? 'Save' : 'Saving...'}
         </button>
