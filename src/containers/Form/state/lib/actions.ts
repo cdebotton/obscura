@@ -12,14 +12,23 @@ interface ActionCreator<T> {
   (payload: T): Action<T>;
 }
 
-export function actionCreator<T>(type: symbol): ActionCreator<T> {
+interface EmptyActionCreator extends ActionCreator<void> {
+  (payload?: void): Action<void>;
+}
+
+interface ActionCreatorFactory {
+  (type: symbol): EmptyActionCreator;
+  <P>(type: symbol): ActionCreator<P>;
+}
+
+export const actionCreator: ActionCreatorFactory = <T = void>(type: symbol) => {
   return Object.assign(
     (payload: T) => {
       return { type, payload };
     },
     { type },
   );
-}
+};
 
 export function isType<T>(
   action: AnyAction,

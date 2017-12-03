@@ -1,21 +1,25 @@
 import * as React from 'react';
-import { Reducer } from './combineReducers';
 import {
   createReducer,
   Errors,
   initForm,
+  Reducer,
   State,
+  submitFailure,
+  submitRequest,
+  submitSuccess,
   updateDirty,
   updateErrors,
   updateTouched,
   updateValue,
-} from './state';
+} from '../state';
+import { isPromise } from './lib/isPromise';
 
 /**
  * The context that's passed down to the child prop
  * which contains all of the finalized form data.
  */
-type FormContext<T> = State<T> & {
+export type FormContext<T> = State<T> & {
   isDirty: boolean;
   isValid: boolean;
   isSubmitting: boolean;
@@ -194,12 +198,25 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
    * Submit the form. After submission, if successful, reset
    * the state of the form to clean and create a new snapshot.
    */
-  private onSubmit = (event: React.FormEvent<any>) => {
+  private onSubmit = async (event: React.FormEvent<any>) => {
     event.preventDefault();
 
-    this.props.onSubmit(this.state.fields);
-
     let nextState = { ...this.state };
+
+    nextState = this.reduce(nextState, submitRequest());
+
+    try {
+      const submitting = this.props.onSubmit(this.state.fields);
+      if (isPromise(submitting)) {
+        const response = await submitting;
+        nextState = this.reduce(nextState, submitSuccess(response));
+      } else {
+        nextState = this.reduce(nextState, submitSuccess(true));
+      }
+    } catch (err) {
+      nextState = this.reduce(nextState, submitFailure(err.message));
+    }
+
     Object.keys(nextState.fields).forEach(fieldName => {
       nextState = this.reduce(
         nextState,
@@ -212,7 +229,7 @@ export class Form<T> extends React.PureComponent<Props<T>, State<T>> {
     });
 
     this.setState(nextState, () => {
-      this.snapshot = this.state;
+      this.snapshot = nextState;
     });
   };
 
