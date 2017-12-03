@@ -40,6 +40,8 @@ const withCreateNewUser = graphql<User>(CreateNewUserQuery);
 
 export const AdminUsers = compose(withCreateNewUser, withUsers)(
   ({ data, mutate }) => {
+    const { loading, error, users } = data!;
+
     return (
       <Page>
         <Heading level={2}>Users</Heading>
@@ -49,12 +51,10 @@ export const AdminUsers = compose(withCreateNewUser, withUsers)(
             data!.refetch();
           }}
         />
-        {data!.loading && <p>Loading...</p>}
-        {data!.error && <p>{data!.error!.message}</p>}
-        {data!.users && (
-          <ul>
-            {data!.users!.map(user => <li key={user.id}>{user.email}</li>)}
-          </ul>
+        {loading && <p>Loading...</p>}
+        {error && <p>{error.message}</p>}
+        {users && (
+          <ul>{users.map(user => <li key={user.id}>{user.email}</li>)}</ul>
         )}
       </Page>
     );
