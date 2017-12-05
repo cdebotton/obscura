@@ -3,6 +3,7 @@ import { createTypedForm, FormErrors } from '../../containers/Form';
 import { Input } from '../molecules/Input';
 
 interface Props {
+  className?: string;
   onSubmit: (values: Values) => void;
 }
 
@@ -14,7 +15,7 @@ interface Values {
 
 const Form = createTypedForm<Values>();
 
-export const CreateUserForm = ({ onSubmit }: Props) => (
+export const CreateUserForm = ({ className, onSubmit }: Props) => (
   <Form
     onSubmit={onSubmit}
     initialValues={{
@@ -49,7 +50,7 @@ export const CreateUserForm = ({ onSubmit }: Props) => (
       isSubmitting,
       isValid,
     }) => (
-      <form onSubmit={handleSubmit}>
+      <form className={className} onSubmit={handleSubmit}>
         <Input label="Email" {...fields.email} {...metadata.email} />
         <Input label="Username" {...fields.username} {...metadata.username} />
         <Input label="Password" {...fields.password} {...metadata.password} />

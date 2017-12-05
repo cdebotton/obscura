@@ -14,13 +14,13 @@ interface Props {
 
 const InputContainer = styled.div`
   position: relative;
-  padding: ${rem(15)} ${rem(10)} ${rem(15)};
+  padding: ${rem(10)} 0 ${rem(15)};
 `;
 
 const InputLabel = styled.label`
   position: absolute;
   top: 0;
-  left: ${rem(10)};
+  left: ${rem(6)};
   font-size: ${rem(10)};
   font-weight: 800;
   text-transform: uppercase;
@@ -29,13 +29,21 @@ const InputLabel = styled.label`
 const InputError = styled.span`
   position: absolute;
   bottom: 0;
-  left: ${rem(10)};
+  left: ${rem(6)};
   color: red;
   font-size: ${rem(10)};
   font-weight: 800;
 `;
 
-const InputField = styled.input``;
+const InputField = styled.input`
+  padding: ${rem(4)} ${rem(6)};
+  border: none;
+  border-bottom: 1px solid #eee;
+
+  &:focus {
+    outline: none;
+  }
+`;
 
 export const Input = ({
   label,

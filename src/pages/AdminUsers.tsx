@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { Heading } from '../components/atoms/Heading';
-import { Page } from '../components/atoms/Page';
+import { AdminUsersLayout } from '../components/layouts/AdminUsersLayout';
 import { CreateUserForm } from '../components/organisms/CreateUserForm';
 
 type User = {
@@ -43,7 +43,7 @@ export const AdminUsers = compose(withCreateNewUser, withUsers)(
     const { loading, error, users } = data!;
 
     return (
-      <Page>
+      <AdminUsersLayout>
         <Heading level={2}>Users</Heading>
         <CreateUserForm
           onSubmit={async values => {
@@ -53,10 +53,12 @@ export const AdminUsers = compose(withCreateNewUser, withUsers)(
         />
         {loading && <p>Loading...</p>}
         {error && <p>{error.message}</p>}
-        {users && (
-          <ul>{users.map(user => <li key={user.id}>{user.email}</li>)}</ul>
-        )}
-      </Page>
+        <div data-grid-area="content">
+          {users && (
+            <ul>{users.map(user => <li key={user.id}>{user.email}</li>)}</ul>
+          )}
+        </div>
+      </AdminUsersLayout>
     );
   },
 );
