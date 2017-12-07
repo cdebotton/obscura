@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Heading } from '../components/atoms/Heading';
-import { Page } from '../components/atoms/Page';
+import { Heading, Page } from '../modules/ui';
 
 export const Home: React.SFC<{}> = () => (
   <Page>

@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { Heading } from '../components/atoms/Heading';
-import { AdminUsersLayout } from '../components/layouts/AdminUsersLayout';
-import { CreateUserForm } from '../components/organisms/CreateUserForm';
+import { AdminUsersLayout } from '../../components/layouts/AdminUsersLayout';
+import { Heading } from '../../modules/ui';
+import { CreateUserForm } from './CreateUserForm';
 
 type User = {
   id: number;

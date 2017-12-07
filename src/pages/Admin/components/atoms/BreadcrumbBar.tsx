@@ -1,5 +1,5 @@
 import { rem } from 'polished';
-import { styled } from '../../utils/styled-components';
+import { styled } from '../../../../utils/styled-components';
 
 export const BreadcrumbBar = styled.div`
   z-index: 1;

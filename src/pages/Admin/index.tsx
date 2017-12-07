@@ -1,16 +1,16 @@
 import { Context } from 'koa';
 import * as React from 'react';
 import { Link, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { BreadcrumbBar } from '../components/atoms/BreadcrumbBar';
-import { Header } from '../components/atoms/Header';
-import { Heading } from '../components/atoms/Heading';
-import { Sidebar } from '../components/atoms/Sidebar';
-import { AdminLayout } from '../components/layouts/AdminLayout';
-import { adminTheme } from '../theme/admin';
-import { ThemeProvider } from '../utils/styled-components';
-import { AdminDashboard } from './AdminDashboard';
-import { AdminUsers } from './AdminUsers';
-import { NotFound } from './NotFound';
+import { AdminLayout } from '../../components/layouts/AdminLayout';
+import { Heading } from '../../modules/ui/components/atoms/Heading';
+import { adminTheme } from '../../theme/admin';
+import { ThemeProvider } from '../../utils/styled-components';
+import { AdminDashboard } from '../AdminDashboard';
+import { AdminUsers } from '../AdminUsers';
+import { NotFound } from '../NotFound';
+import { BreadcrumbBar } from './components/atoms/BreadcrumbBar';
+import { Header } from './components/atoms/Header';
+import { Sidebar } from './components/atoms/Sidebar';
 
 type Props = RouteComponentProps<Context>;
 

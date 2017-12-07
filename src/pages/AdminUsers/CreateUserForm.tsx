@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { createTypedForm, FormErrors } from '../../containers/Form';
-import { Input } from '../molecules/Input';
+import { createTypedForm, FormErrors } from '../../modules/forms';
+import { Input } from '../../modules/forms/components/molecules/Input';
 
 interface Props {
   className?: string;

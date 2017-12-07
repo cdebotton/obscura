@@ -1,8 +1,8 @@
 import { rem } from 'polished';
 import styled from 'styled-components';
-import { BreadcrumbBar } from '../atoms/BreadcrumbBar';
-import { Header } from '../atoms/Header';
-import { Sidebar } from '../atoms/Sidebar';
+import { BreadcrumbBar } from '../../pages/admin/components/atoms/BreadcrumbBar';
+import { Header } from '../../pages/admin/components/atoms/Header';
+import { Sidebar } from '../../pages/admin/components/atoms/Sidebar';
 import { AdminPageLayout } from './AdminPageLayout';
 import { Layout } from './Layout';
 

@@ -1,4 +1,4 @@
-import { Heading } from '../atoms/Heading';
+import { Heading } from '../../modules/ui';
 import { AdminPageLayout } from './AdminPageLayout';
 
 export const AdminUsersLayout = AdminPageLayout.extend`

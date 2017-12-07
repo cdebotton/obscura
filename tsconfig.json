@@ -5,7 +5,6 @@
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "downlevelIteration": true,
-    "forceConsistentCasingInFileNames": true,
     "lib": ["es6", "esnext", "dom"],
     "jsx": "react",
     "moduleResolution": "node",

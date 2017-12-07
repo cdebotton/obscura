@@ -1,6 +1,6 @@
 import { modularScale } from 'polished';
 import * as React from 'react';
-import { styled } from '../../utils/styled-components';
+import { styled } from '../../../../utils/styled-components';
 
 type Props = React.HTMLProps<HTMLHeadingElement> & {
   className?: string;

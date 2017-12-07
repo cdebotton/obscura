@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Heading } from '../components/atoms/Heading';
-import { Page } from '../components/atoms/Page';
-import { Status } from '../containers/Status';
+import { Status } from '../modules/routing';
+import { Heading } from '../modules/ui/components/atoms/Heading';
+import { Page } from '../modules/ui/components/atoms/Page';
 
 type Props = RouteComponentProps<void>;
 
