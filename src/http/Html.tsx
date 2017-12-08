@@ -51,7 +51,7 @@ export const Html = ({ bundles, children, manifest, state }: Props) => {
         />
         <script src={manifest['main.js']} />
         ${bundles.map(bundle => {
-          return <script key={bundle.id} src={`/dist/${bundle.file}`} />;
+          return <script key={bundle.id} src={manifest[bundle.file]} />;
         })}
       </body>
     </html>
