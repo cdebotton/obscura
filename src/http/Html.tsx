@@ -16,13 +16,20 @@ injectGlobal`
   }
 `;
 
+type Bundle = {
+  id: string;
+  name: string;
+  file: string;
+};
+
 type Props = {
   children: React.ReactElement<any>;
   manifest: { [x: string]: string };
   state: { [x: string]: any };
+  bundles: Bundle[];
 };
 
-export const Html = ({ children, manifest, state }: Props) => {
+export const Html = ({ bundles, children, manifest, state }: Props) => {
   const sheet = new ServerStyleSheet();
   sheet.collectStyles(children);
 
@@ -43,6 +50,9 @@ export const Html = ({ children, manifest, state }: Props) => {
           }}
         />
         <script src={manifest['main.js']} />
+        ${bundles.map(bundle => {
+          return <script key={bundle.id} src={`/dist/${bundle.file}`} />;
+        })}
       </body>
     </html>
   );

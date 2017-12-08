@@ -9,13 +9,18 @@ import * as nodeFetch from 'node-fetch';
 import * as path from 'path';
 import * as React from 'react';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
+// @ts-ignore
+import { getBundles } from 'react-loadable/webpack';
 import { StaticRouter } from 'react-router';
 import { createConnection } from 'typeorm';
+// @ts-ignore
+import * as stats from '../public/dist/react-loadable.json';
 import { schema } from './api/schema';
 import { User } from './data/entity/User';
 import { Html } from './http/Html';
 import { app } from './http/index';
 import { render } from './http/render';
+import { Loadable } from './modules/loadable';
 import { Root } from './pages/Root';
 import { Emoji, start } from './utils/Logger';
 
@@ -68,21 +73,26 @@ const createApp = async () => {
         ssrMode: true,
       });
 
+      const modules: any[] = [];
+
       const root = (
-        <ApolloProvider client={client}>
-          <StaticRouter context={ctx} location={ctx.req.url}>
-            <Root />
-          </StaticRouter>
-        </ApolloProvider>
+        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+          <ApolloProvider client={client}>
+            <StaticRouter context={ctx} location={ctx.req.url}>
+              <Root />
+            </StaticRouter>
+          </ApolloProvider>
+        </Loadable.Capture>
       );
 
       await getDataFromTree(root);
+      const bundles = getBundles(stats, modules);
 
       const initialState = client.cache.extract();
       const manifest = require(path.join(process.cwd(), 'manifest.json'));
 
       return (
-        <Html manifest={manifest} state={initialState}>
+        <Html manifest={manifest} state={initialState} bundles={bundles}>
           {root}
         </Html>
       );

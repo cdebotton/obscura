@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 const { NODE_ENV } = process.env;
 if (!NODE_ENV) {
@@ -57,13 +58,14 @@ const config = {
       writeToFileEmit: true,
       fileName: path.join(process.cwd(), 'manifest.json'),
     }),
+    new ReactLoadablePlugin({
+      filename: './public/dist/react-loadable.json',
+    }),
   ],
 };
 
-// if (NODE_ENV === 'production') {
-//   config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-
-//   }));
-// }
+if (NODE_ENV === 'production') {
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin({}));
+}
 
 module.exports = config;

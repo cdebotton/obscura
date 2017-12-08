@@ -7,6 +7,7 @@ import { AppShell } from './components/atoms/Shell';
 const AdminLoader = Loadable({
   loader: () => import('../../pages/Admin'),
   loading: () => <p>Loading...</p>,
+  modules: ['../../pages/Admin'],
   render({ Admin }, props: RouteComponentProps<Context>) {
     return <Admin {...props} />;
   },
@@ -16,6 +17,7 @@ const AdminLoader = Loadable({
 const PublicLoader = Loadable({
   loader: () => import('../../pages/Public'),
   loading: () => <p>Loading...</p>,
+  modules: ['../../pages/Public'],
   render({ Public }) {
     return <Public />;
   },

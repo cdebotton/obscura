@@ -13,6 +13,7 @@ import { Sidebar } from './components/atoms/Sidebar';
 const AdminDashboardLoader = Loadable({
   loader: () => import('../../pages/AdminDashboard'),
   loading: () => <p>Loading...</p>,
+  modules: ['../../pages/AdminDashboard'],
   render({ AdminDashboard }) {
     return <AdminDashboard />;
   },
@@ -22,6 +23,7 @@ const AdminDashboardLoader = Loadable({
 const AdminUsersLoader = Loadable({
   loader: () => import('../../pages/AdminUsers'),
   loading: () => <p>Loading...</p>,
+  modules: ['../../pages/AdminUsers'],
   render({ AdminUsers }) {
     return <AdminUsers />;
   },
@@ -31,6 +33,7 @@ const AdminUsersLoader = Loadable({
 const NotFoundLoader = Loadable({
   loader: () => import('../../pages/NotFound'),
   loading: () => <p>Loading...</p>,
+  modules: ['../../pages/NotFound'],
   render({ NotFound }, props: RouteComponentProps<void>) {
     return <NotFound {...props} />;
   },

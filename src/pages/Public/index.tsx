@@ -7,6 +7,7 @@ import { ThemeProvider } from '../../utils/styled-components';
 const HomeLoader = Loadable({
   loader: () => import('../Home'),
   loading: () => <p>Loading...</p>,
+  modules: ['../Home'],
   render({ Home }, props) {
     return <Home {...props} />;
   },
@@ -16,6 +17,7 @@ const HomeLoader = Loadable({
 const NotFoundLoader = Loadable({
   loader: () => import('../NotFound'),
   loading: () => <p>Loading...</p>,
+  modules: ['../NotFound'],
   render({ NotFound }, props: RouteComponentProps<void>) {
     return <NotFound {...props} />;
   },

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import * as ReactDOM from 'react-dom';
 import { Router } from 'react-router';
+import { Loadable } from '../modules/loadable';
 import { Root } from '../pages/Root';
 import { history } from './history';
 
@@ -17,7 +18,9 @@ const client = new ApolloClient({
   }),
 });
 
-const render = () => {
+const render = async () => {
+  await Loadable.preloadReady();
+
   ReactDOM.hydrate(
     <ApolloProvider client={client}>
       <Router history={history}>
