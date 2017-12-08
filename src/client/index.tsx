@@ -18,7 +18,7 @@ const client = new ApolloClient({
   }),
 });
 
-const render = async () => {
+(window as any).main = async () => {
   await Loadable.preloadReady();
 
   ReactDOM.hydrate(
@@ -31,8 +31,6 @@ const render = async () => {
   );
 };
 
-render();
-
 if (module.hot) {
-  module.hot.accept('../pages/Root', render);
+  module.hot.accept('../pages/Root', (window as any).main);
 }

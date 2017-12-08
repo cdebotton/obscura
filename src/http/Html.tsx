@@ -53,6 +53,7 @@ export const Html = ({ bundles, children, manifest, state }: Props) => {
         ${bundles.map(bundle => {
           return <script key={bundle.id} src={manifest[bundle.file]} />;
         })}
+        <script>window.main();</script>
       </body>
     </html>
   );

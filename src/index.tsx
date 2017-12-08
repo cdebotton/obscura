@@ -105,4 +105,4 @@ const createApp = async () => {
   });
 };
 
-createApp();
+Loadable.preloadAll().then(createApp);

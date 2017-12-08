@@ -2,7 +2,6 @@ import * as Koa from 'koa';
 import * as merge2 from 'merge2';
 import * as React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
-import { Loadable } from '../modules/loadable';
 import { StringStream } from './string-stream';
 
 type AppCallback = (ctx: Koa.Context) => Promise<React.ReactElement<any>>;
@@ -10,7 +9,6 @@ type AppCallback = (ctx: Koa.Context) => Promise<React.ReactElement<any>>;
 export const render = (appCallback: AppCallback) => async (
   ctx: Koa.Context,
 ) => {
-  await Loadable.preloadAll();
   const doctype = new StringStream('<!doctype>');
   const app = await appCallback(ctx);
   const markup = renderToNodeStream(app);
