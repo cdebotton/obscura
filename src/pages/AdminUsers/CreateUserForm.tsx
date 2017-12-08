@@ -1,6 +1,11 @@
+import { rem } from 'polished';
 import * as React from 'react';
+import styled from 'styled-components';
 import { createTypedForm, FormErrors } from '../../modules/forms';
-import { Input } from '../../modules/forms/components/molecules/Input';
+import {
+  Input,
+  InputContainer,
+} from '../../modules/forms/components/molecules/Input';
 
 interface Props {
   className?: string;
@@ -14,6 +19,29 @@ interface Values {
 }
 
 const Form = createTypedForm<Values>();
+
+const Layout = styled.form`
+  display: grid;
+  padding: ${rem(24)};
+
+  grid:
+    [row1-start] 'email email' min-content [row1-end]
+    [row2-start] 'username password' min-content [row2-end]
+    [row3-start] 'save reset' min-content [row3-end]
+    / auto auto;
+
+  ${InputContainer}:first-child {
+    grid-area: email;
+  }
+
+  ${InputContainer}:nth-child(2) {
+    grid-area: username;
+  }
+
+  ${InputContainer}:nth-child(3) {
+    grid-area: password;
+  }
+`;
 
 export const CreateUserForm = ({ className, onSubmit }: Props) => (
   <Form
@@ -50,7 +78,7 @@ export const CreateUserForm = ({ className, onSubmit }: Props) => (
       isSubmitting,
       isValid,
     }) => (
-      <form className={className} onSubmit={handleSubmit}>
+      <Layout className={className} onSubmit={handleSubmit}>
         <Input label="Email" {...fields.email} {...metadata.email} />
         <Input label="Username" {...fields.username} {...metadata.username} />
         <Input label="Password" {...fields.password} {...metadata.password} />
@@ -60,7 +88,7 @@ export const CreateUserForm = ({ className, onSubmit }: Props) => (
         <button type="reset" onClick={onReset} disabled={!isDirty}>
           Reset
         </button>
-      </form>
+      </Layout>
     )}
   </Form>
 );

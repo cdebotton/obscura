@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { AdminUsersLayout } from '../../components/layouts/AdminUsersLayout';
 import { Heading } from '../../modules/ui';
+import { AdminUsersLayout } from './components/atoms/AdminUsersLayout';
 import { CreateUserForm } from './CreateUserForm';
 
 type User = {

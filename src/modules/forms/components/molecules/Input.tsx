@@ -12,7 +12,7 @@ interface Props {
   value: string;
 }
 
-const InputContainer = styled.div`
+export const InputContainer = styled.div`
   position: relative;
   padding: ${rem(10)} 0 ${rem(15)};
 `;
@@ -36,6 +36,7 @@ const InputError = styled.span`
 `;
 
 const InputField = styled.input`
+  width: 100%;
   padding: ${rem(4)} ${rem(6)};
   border: none;
   border-bottom: 1px solid #eee;
@@ -51,13 +52,17 @@ export const Input = ({
   isValid,
   isDirty,
   isTouched,
-  ...inputProps,
+  ...inputProps
 }: React.HTMLProps<HTMLInputElement> & Props) => (
   <InputContainer>
     {inputProps.value.trim() !== '' && (
       <InputLabel htmlFor={inputProps.id}>{label}</InputLabel>
     )}
-    <InputField placeholder={label} {...inputProps as any} />
+    <InputField
+      placeholder={label}
+      name={inputProps.id}
+      {...inputProps as any}
+    />
     {isDirty && isTouched && !isValid && <InputError>{error}</InputError>}
   </InputContainer>
 );

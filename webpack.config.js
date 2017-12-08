@@ -28,7 +28,7 @@ const config = {
             loader: 'ts-loader',
             options: {
               compilerOptions: {
-                module: 'es2015',
+                module: 'esnext',
                 target: 'es5',
                 moduleResolution: 'node',
               },

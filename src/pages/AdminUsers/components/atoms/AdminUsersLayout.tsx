@@ -1,5 +1,5 @@
-import { Heading } from '../../modules/ui';
-import { AdminPageLayout } from './AdminPageLayout';
+import { Heading } from '../../../../modules/ui';
+import { AdminPageLayout } from '../../../Admin/components/atoms/AdminPageLayout';
 
 export const AdminUsersLayout = AdminPageLayout.extend`
   display: grid;
@@ -9,7 +9,7 @@ export const AdminUsersLayout = AdminPageLayout.extend`
     [row1-start] 'header' min-content [row1-end]
     [row2-start] 'form' min-content [row2-end]
     [row3-start] 'content' [row3-end]
-    / 100%;
+    / auto;
 
   ${Heading} {
     grid-area: header;

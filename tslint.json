@@ -17,6 +17,7 @@
     "member-access": false,
     "no-submodule-imports": false,
     "no-unused-expression": [true, "allow-tagged-template"],
+    "object-shorthand-properties-first": false,
     "only-arrow-functions": false,
     "variable-name": [true, "allow-pascal-case"]
   }

@@ -2,7 +2,7 @@ import { actionCreator } from './lib/actions';
 import { combineReducers } from './lib/combineReducers';
 import { dirty, Dirty, updateDirty } from './modules/dirty';
 import { errors, Errors, updateErrors } from './modules/errors';
-import { fields, updateValue } from './modules/Fields';
+import { fields, updateValue } from './modules/fields';
 import {
   isSubmitting,
   submitFailure,

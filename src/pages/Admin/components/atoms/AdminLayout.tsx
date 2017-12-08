@@ -1,12 +1,11 @@
 import { rem } from 'polished';
-import styled from 'styled-components';
-import { BreadcrumbBar } from '../../pages/admin/components/atoms/BreadcrumbBar';
-import { Header } from '../../pages/admin/components/atoms/Header';
-import { Sidebar } from '../../pages/admin/components/atoms/Sidebar';
+import { Layout } from '../../../Root/components/atoms/Layout';
 import { AdminPageLayout } from './AdminPageLayout';
-import { Layout } from './Layout';
+import { BreadcrumbBar } from './BreadcrumbBar';
+import { Header } from './Header';
+import { Sidebar } from './Sidebar';
 
-export const AdminLayout = styled(Layout)`
+export const AdminLayout = Layout.extend`
   grid:
     [row1-start] 'header header' min-content [row1-end]
     [row2-start] 'sidebar breadcrumb-bar' min-content [row2-end]

@@ -41,11 +41,11 @@ const createApp = async () => {
     '/graphql',
     graphqlKoa(ctx => {
       return {
-        schema,
         context: {
-          userRepository,
           cookies: ctx.cookies,
+          userRepository,
         },
+        schema,
       };
     }),
   );
